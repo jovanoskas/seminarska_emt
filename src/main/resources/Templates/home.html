@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,19 +8,18 @@
     <style>
         body {
             font-family: "Lato", sans-serif;
-            background-color: greenyellow;
+            background-color: yellowgreen;
             background-repeat: no-repeat;
         }
-        .mySlides {display: none}
     </style>
 <body>
 
 <!-- Navbar -->
 <div class="w3-top">
     <div class="w3-bar w3-black w3-card">
-        <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-        <a href="home" class="w3-bar-item w3-button w3-padding-large">Home</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Radio</a>
+        <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)"  title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+        <a href="home.html" class="w3-bar-item w3-button w3-padding-large">Home</a>
+        <a href="radio.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Radio</a>
         <a href="login.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Log in</a>
         <a href="signup.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Sign up</a>
         <div class="w3-dropdown-hover w3-hide-small">
@@ -37,15 +36,15 @@
 
 <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
 <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
-    <a href="#" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Radio</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Log in</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Sign up</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Playlists</a>
+    <a href="radio.html" class="w3-bar-item w3-button w3-padding-large" >Radio</a>
+    <a href="login.html" class="w3-bar-item w3-button w3-padding-large" >Log in</a>
+    <a href="signup.html" class="w3-bar-item w3-button w3-padding-large" >Sign up</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Playlists</a>
 </div>
 
 <!-- Page content -->
-<div class="w3-content" style="max-width:2000px;margin-top:46px">
-    <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+<div class="w3-content" style="max-width:2000px; margin-top:46px">
+    <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px">
         <h2 class="w3-wide">The BEST music app</h2>
         <p class="w3-opacity"><i>We love music</i></p>
         <p class="w3-justify">With our app, you can play millions of songs and podcasts for free. Listen to the songs and podcasts you love and find music from all over the world.</p>
@@ -61,7 +60,7 @@
                 <i class="fa fa-phone" style="width:30px"></i> Phone: +00 151515<br>
                 <i class="fa fa-envelope" style="width:30px"> </i> Email: music_app@mail.com<br>
             </div>
-            <div class="w3-col m6">
+            <div class="w3-col">
                 <form action="/home" target="_blank">
                     <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
                         <div class="w3-half">
@@ -93,44 +92,7 @@
     <i class="fa fa-pinterest-p w3-hover-opacity"></i>
     <i class="fa fa-twitter w3-hover-opacity"></i>
     <i class="fa fa-linkedin w3-hover-opacity"></i>
-    <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
-
-<script>
-    // Automatic Slideshow - change image every 4 seconds
-    let myIndex = 0;
-    carousel();
-
-    function carousel() {
-        let i;
-        let x = document.getElementsByClassName("mySlides");
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        myIndex++;
-        if (myIndex > x.length) {myIndex = 1}
-        x[myIndex-1].style.display = "block";
-        setTimeout(carousel, 4000);
-    }
-
-    // Used to toggle the menu on small screens when clicking on the menu button
-    function myFunction() {
-        let x = document.getElementById("navDemo");
-        if (x.className.indexOf("w3-show") === -1) {
-            x.className += " w3-show";
-        } else {
-            x.className = x.className.replace(" w3-show", "");
-        }
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    let modal = document.getElementById('ticketModal');
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>
 
 </body>
 </html>
