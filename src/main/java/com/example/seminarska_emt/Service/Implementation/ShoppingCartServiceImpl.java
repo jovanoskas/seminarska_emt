@@ -53,7 +53,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCart addSongToShoppingCart(String userId, Long productId) {
+    public ShoppingCart addSongToShoppingCart(String userId, String productId) {
         ShoppingCart shoppingCart = this.getActiveShoppingCart(userId);
         Song song = this.songService.findById(productId);
         for (Song s : shoppingCart.getSongs()) {
