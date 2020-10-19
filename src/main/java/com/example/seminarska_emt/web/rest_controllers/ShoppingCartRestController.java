@@ -31,17 +31,17 @@ public class ShoppingCartRestController {
     }
 
     @PatchMapping("/{songId}/songs")
-    public ShoppingCart addProductToCart(@PathVariable Long productId) {
+    public ShoppingCart addSongToCart(@PathVariable Long songId) {
         return this.shoppingCartService.addSongToShoppingCart(
                 this.artistService.getCurrentUserId(),
-                productId);
+                songId);
     }
 
     @DeleteMapping("/{songId}/songs")
-    public ShoppingCart removeSongFromShoppingCart(@PathVariable Long productId) {
+    public ShoppingCart removeSongFromShoppingCart(@PathVariable Long songId) {
         return this.shoppingCartService.removeSongFromShoppingCart(
                 this.artistService.getCurrentUserId(),
-                productId
+                songId
         );
     }
 

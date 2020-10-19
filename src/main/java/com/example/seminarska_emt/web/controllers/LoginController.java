@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
@@ -11,14 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping(value = "/login", method = RequestMethod.POST)
 public class LoginController {
-    private List<String> allowedNames;
 
     @PostConstruct
     public void init(){
-        this.allowedNames = new ArrayList<>();
-        this.allowedNames.add("userr");
+        List<String> allowedNames = new ArrayList<>();
+        allowedNames.add("userr");
     }
 
 
@@ -28,5 +28,6 @@ public class LoginController {
         model.addAttribute("info", info);
         return "login";
     }
+
 
 }

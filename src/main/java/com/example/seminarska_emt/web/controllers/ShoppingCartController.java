@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/shopping-carts")
+@RequestMapping(value = "/shopping-carts")
 public class ShoppingCartController {
 
     private final ShoppingCartService shoppingCartService;
@@ -33,7 +33,7 @@ public class ShoppingCartController {
     }
 
 
-    @PostMapping("/{productId}/remove-product")
+    @PostMapping("/{productId}/remove-song")
     public String removeSongToShoppingCart(@PathVariable Long productId) {
         ShoppingCart shoppingCart = this.shoppingCartService.removeSongFromShoppingCart(this.artistService.getCurrentUserId(), productId);
         return "redirect:/songs";

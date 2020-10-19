@@ -34,11 +34,6 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public List<User> findAll() {
-        return this.userRepository.findAll();
-    }
-
-    @Override
     public User findById(String id) {
         return this.userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFound(id));

@@ -6,7 +6,6 @@ import com.example.seminarska_emt.model.User;
 import java.util.List;
 
 public interface ArtistService {
-    List<User> findAll();
     User findById(String id);
     Artist save(Artist artist);
 

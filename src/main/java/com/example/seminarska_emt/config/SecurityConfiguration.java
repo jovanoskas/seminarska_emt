@@ -1,64 +1,54 @@
 package com.example.seminarska_emt.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
+
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-
     @Autowired
-    private CustomUsernamePasswordAuthenticationProvider customUsernamePasswordAuthenticationProvider;
+    PasswordEncoder passwordEncoder;
 
-    /*@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(this.customUsernamePasswordAuthenticationProvider);
-
-    }*/
     @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("user@gmail.com").password(passwordEncoder().encode("user1Pass")).roles("USER")
+                .passwordEncoder(passwordEncoder)
+                .withUser("user@gmail.com").password(passwordEncoder.encode("123456")).roles("USER")
                 .and()
-                .withUser("admin@gmail.com").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
+                .withUser("admin@gmail.com").password(passwordEncoder.encode("123456")).roles("USER", "ADMIN");
+    }
 
+
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/", "/home", "/assets/**", "/signup/**").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest()
-                .authenticated()
+        http.authorizeRequests()
+                .antMatchers("/login")
+                .permitAll()
+                .antMatchers("/**")
+                .hasAnyRole("ADMIN", "USER")
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
-                .failureUrl("/login?error=BadCredentials")
-                .defaultSuccessUrl("/home", true)
+                .loginPage("/login.html")
+                .defaultSuccessUrl("/home.html",true)
+                .failureUrl("/login?error=true")
+                .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/logout")
-                .clearAuthentication(true)
+                .logoutSuccessUrl("/login?logout=true")
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login")
+                .permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/songs?error=You are not authorized!");
-    }
-
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+                .csrf()
+                .disable();
     }
 }
