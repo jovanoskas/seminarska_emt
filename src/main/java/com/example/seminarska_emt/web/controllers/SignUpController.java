@@ -1,6 +1,5 @@
 package com.example.seminarska_emt.web.controllers;
 
-import com.example.seminarska_emt.Service.ArtistService;
 import com.example.seminarska_emt.Service.UserService;
 import com.example.seminarska_emt.model.User;
 import com.example.seminarska_emt.web.controllers.dto.UserSignup;
@@ -38,11 +37,11 @@ public class SignUpController {
         }
 
         if (result.hasErrors()){
-            return "registration";
+            return "signup";
         }
 
         userService.save(userSignup);
-        return "redirect:/registration?success";
+        return "redirect:/singup?success";
     }
 
 

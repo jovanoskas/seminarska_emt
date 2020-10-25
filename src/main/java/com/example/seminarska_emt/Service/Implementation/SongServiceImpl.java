@@ -26,7 +26,7 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public Song findById(Long id) {
-        return (Song) this.songRepository.findById(id)
+        return this.songRepository.findById(id)
                 .orElseThrow(() -> new SongNotFound(id));
     }
 

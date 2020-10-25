@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -39,13 +39,13 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userSignup.getLastName());
         user.setEmail(userSignup.getEmail());
         user.setPassword(passwordEncoder.encode(userSignup.getPassword()));
-        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
+        user.setRoles(Collections.singletonList(new Role("ROLE_USER")));
         return userRepository.save(user);
     }
 
     @Override
     public User findById(String userId) {
-        return (User) this.userRepository.findById(userId)
+        return  this.userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFound(userId));
     }
 

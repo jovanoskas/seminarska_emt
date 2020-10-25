@@ -25,6 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/signup**",
+                        "/home",
                         "/js/**",
                         "/css/**",
                         "/img/**",

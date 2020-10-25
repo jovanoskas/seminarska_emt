@@ -16,5 +16,4 @@ public interface ArtistService {
 
     String getCurrentUserId();
 
-    User signUpUser(String username, String password, String repeatedPassword, String email);
 }
