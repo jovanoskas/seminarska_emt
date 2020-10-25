@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "SHOPPING_CARTS")
+@Table(name = "shopping_carts")
 public class ShoppingCart {
 
     @Id
@@ -18,11 +18,9 @@ public class ShoppingCart {
     private CartStatus status = CartStatus.CREATED;
 
     @ManyToOne
-    @JoinColumn(name = "users")
     private User user;
 
     @ManyToMany
-   @JoinTable(name = "cart_products", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "song_id"))
     private List<Song> songs = new ArrayList<>();
 
     public ShoppingCart() {}

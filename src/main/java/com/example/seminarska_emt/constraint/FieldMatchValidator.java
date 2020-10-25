@@ -1,5 +1,6 @@
 package com.example.seminarska_emt.constraint;
 
+
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.ConstraintValidator;
