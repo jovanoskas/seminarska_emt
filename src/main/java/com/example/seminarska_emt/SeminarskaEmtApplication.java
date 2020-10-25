@@ -12,9 +12,6 @@ public class SeminarskaEmtApplication {
     public static void main(String[] args) {
         SpringApplication.run(SeminarskaEmtApplication.class, args);
     }
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
-    }
+
 
 }

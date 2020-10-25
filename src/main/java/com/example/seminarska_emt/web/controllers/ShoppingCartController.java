@@ -23,7 +23,7 @@ public class ShoppingCartController {
 
 
     @PostMapping("/{songId}/add-song")
-    public String addSongToShoppingCart(@PathVariable String songId) {
+    public String addSongToShoppingCart(@PathVariable Long songId) {
         try {
             ShoppingCart shoppingCart = this.shoppingCartService.addSongToShoppingCart(this.artistService.getCurrentUserId(), songId);
         } catch (RuntimeException ex) {

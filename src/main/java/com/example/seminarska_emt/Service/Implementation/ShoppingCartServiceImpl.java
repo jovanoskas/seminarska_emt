@@ -8,13 +8,11 @@ import com.example.seminarska_emt.model.Enumerations.CartStatus;
 import com.example.seminarska_emt.model.ShoppingCart;
 import com.example.seminarska_emt.model.Song;
 import com.example.seminarska_emt.model.User;
-import com.example.seminarska_emt.model.dto.ChargeRequest;
 import com.example.seminarska_emt.model.exceptions.ShoppingCartIsAlreadyCreated;
 import com.example.seminarska_emt.model.exceptions.ShoppingCartIsNotActive;
 import com.example.seminarska_emt.model.exceptions.SongIsAlreadyInShoppingCart;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,8 +50,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return this.shoppingCartRepository.save(shoppingCart);
     }
 
-    @Override
-    public ShoppingCart addSongToShoppingCart(String userId, String productId) {
+    public ShoppingCart addSongToShoppingCart(String userId, Long productId) {
         ShoppingCart shoppingCart = this.getActiveShoppingCart(userId);
         Song song = this.songService.findById(productId);
         for (Song s : shoppingCart.getSongs()) {
@@ -99,27 +96,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return this.shoppingCartRepository.save(shoppingCart);
     }
 
-    @Override
-    @Transactional
-    public ShoppingCart checkoutShoppingCart(String userId, ChargeRequest chargeRequest) {
-        ShoppingCart shoppingCart = this.shoppingCartRepository
-                .findByUserUsernameAndStatus(userId, CartStatus.CREATED)
-                .orElseThrow(() -> new ShoppingCartIsNotActive(userId));
 
-        List<Song> songs = shoppingCart.getSongs();
-        shoppingCart.setSongs(songs);
-        shoppingCart.setStatus(CartStatus.FINISHED);
-        return this.shoppingCartRepository.save(shoppingCart);
-    }
-
-
-
-    @Override
-    public ShoppingCart findActiveShoppingCartByUsername(String userId) {
-        return this.shoppingCartRepository.findByUserUsernameAndStatus(userId, CartStatus.CREATED)
-                .orElseThrow(() -> new ShoppingCartIsNotActive(userId));
-
-    }
 
 
 }
