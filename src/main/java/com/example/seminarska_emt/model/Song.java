@@ -29,6 +29,11 @@ public class Song {
     public Song() {
     }
 
+    public Song(Object o, String name, Float price, Long artistId) {
+        this.name=name;
+        this.price=price;
+    }
+
     public Long getId() {
         return id;
     }

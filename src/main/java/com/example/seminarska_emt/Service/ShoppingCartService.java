@@ -1,5 +1,6 @@
 package com.example.seminarska_emt.Service;
 
+import com.example.seminarska_emt.constraint.ChargeRequest;
 import com.example.seminarska_emt.model.ShoppingCart;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface ShoppingCartService {
     ShoppingCart removeSongFromShoppingCart(String userId, Long productId);
     ShoppingCart getActiveShoppingCart(String userId);
     ShoppingCart cancelActiveShoppingCart(String userId);
+    ShoppingCart checkoutShoppingCart(String userId, ChargeRequest chargeRequest);
 }

@@ -18,9 +18,15 @@ public class ShoppingCart {
     private CartStatus status = CartStatus.CREATED;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToMany
+    @JoinTable(name = "cart_products",
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+
     private List<Song> songs = new ArrayList<>();
 
     public ShoppingCart() {}

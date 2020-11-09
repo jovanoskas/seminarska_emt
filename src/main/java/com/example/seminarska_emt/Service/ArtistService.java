@@ -10,10 +10,12 @@ public interface ArtistService {
     Artist save(Artist artist);
 
     User save(User user);
-    Artist findById(List<Artist> artist);
 
     User getCurrentUser();
 
     String getCurrentUserId();
+    User signUpUser(String username, String password, String repeatedPassword);
+
+    Artist findById(Long artistId);
 
 }

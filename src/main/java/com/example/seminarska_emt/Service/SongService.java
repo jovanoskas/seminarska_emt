@@ -8,5 +8,8 @@ public interface SongService {
     List<Song> findAll();
     Song findById(Long id);
     void deleteById(Long id);
+    List<Song> findAllByArtistId(Long artistId);
+    Song saveSong(String name, Float price, Long artistId);
+
 }
 

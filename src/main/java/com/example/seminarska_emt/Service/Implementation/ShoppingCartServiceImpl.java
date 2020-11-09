@@ -1,9 +1,11 @@
 package com.example.seminarska_emt.Service.Implementation;
 
 import com.example.seminarska_emt.Repository.ShoppingCartRepository;
+import com.example.seminarska_emt.Service.PaymentService;
 import com.example.seminarska_emt.Service.ShoppingCartService;
 import com.example.seminarska_emt.Service.SongService;
 import com.example.seminarska_emt.Service.UserService;
+import com.example.seminarska_emt.constraint.ChargeRequest;
 import com.example.seminarska_emt.model.Enumerations.CartStatus;
 import com.example.seminarska_emt.model.ShoppingCart;
 import com.example.seminarska_emt.model.Song;
@@ -11,8 +13,12 @@ import com.example.seminarska_emt.model.User;
 import com.example.seminarska_emt.model.exceptions.ShoppingCartIsAlreadyCreated;
 import com.example.seminarska_emt.model.exceptions.ShoppingCartIsNotActive;
 import com.example.seminarska_emt.model.exceptions.SongIsAlreadyInShoppingCart;
+import com.example.seminarska_emt.model.exceptions.TransactionFailed;
+import com.stripe.exception.*;
+import com.stripe.model.Charge;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +27,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final UserService userService;
     private final SongService songService;
     private final ShoppingCartRepository shoppingCartRepository;
+    private final PaymentService paymentService;
+
     public ShoppingCartServiceImpl(UserService userService,
                                    SongService songService,
-                                   ShoppingCartRepository shoppingCartRepository) {
+                                   ShoppingCartRepository shoppingCartRepository,
+                                   PaymentService paymentService) {
         this.userService = userService;
         this.songService = songService;
         this.shoppingCartRepository = shoppingCartRepository;
+        this.paymentService = paymentService;
     }
 
 
@@ -96,7 +106,31 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return this.shoppingCartRepository.save(shoppingCart);
     }
 
+    @Override
+    @Transactional
+    public ShoppingCart checkoutShoppingCart(String userId, ChargeRequest chargeRequest) {
+        ShoppingCart shoppingCart = this.shoppingCartRepository
+                .findByUserUsernameAndStatus(userId, CartStatus.CREATED)
+                .orElseThrow(() -> new ShoppingCartIsNotActive(userId));
 
+        List<Song> songs = shoppingCart.getSongs();
+        float price = 0;
+
+        for (Song song : songs) {
+            price += song.getPrice();
+        }
+        Charge charge = null;
+        try {
+            charge = this.paymentService.pay(chargeRequest);
+        } catch (CardException | APIException | AuthenticationException | APIConnectionException | InvalidRequestException e) {
+            throw new TransactionFailed(userId, e.getMessage());
+        }
+
+        shoppingCart.setSongs(songs);
+        shoppingCart.setStatus(CartStatus.FINISHED);
+        return this.shoppingCartRepository.save(shoppingCart);
+
+    }
 
 
 }
