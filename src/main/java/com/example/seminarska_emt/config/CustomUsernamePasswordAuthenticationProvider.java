@@ -1,87 +1,43 @@
 package com.example.seminarska_emt.config;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.example.seminarska_emt.Service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.WebAttributes;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.Collection;
+@Component
+public class CustomUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 
-public class CustomUsernamePasswordAuthenticationProvider implements AuthenticationSuccessHandler {
+    @Autowired
+    private UserService userService;
 
-    protected Log logger = LogFactory.getLog(this.getClass());
-
-    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response, Authentication authentication)
-            throws IOException {
+    public Authentication authenticate(Authentication authentication){
+        String username = authentication.getName();
+        String password = authentication.getCredentials().toString();
 
-        handle(request, response, authentication);
-        clearAuthenticationAttributes(request);
-    }
-
-    protected void handle(HttpServletRequest request,
-                          HttpServletResponse response, Authentication authentication)
-            throws IOException {
-
-        String targetUrl = determineTargetUrl(authentication);
-
-        if (response.isCommitted()) {
-            logger.debug(
-                    "Response has already been committed. Unable to redirect to "
-                            + targetUrl);
-            return;
+        if ("".equals(username) || "".equals(password)) {
+            throw new BadCredentialsException("Invalid Credentials");
         }
 
-        redirectStrategy.sendRedirect(request, response, targetUrl);
+        UserDetails userDetails = this.userService.loadUserByUsername(username);
+
+        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+            throw new BadCredentialsException("Password is incorrect!");
+        }
+        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
-    protected String determineTargetUrl(Authentication authentication) {
-        boolean isUser = false;
-        boolean isAdmin = false;
-        Collection<? extends GrantedAuthority> authorities
-                = authentication.getAuthorities();
-        for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
-                isUser = true;
-                break;
-            } else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
-                isAdmin = true;
-                break;
-            }
-        }
-
-        if (isUser) {
-            return "/homepage.html";
-        } else if (isAdmin) {
-            return "/rooms/new";
-        } else {
-            throw new IllegalStateException();
-        }
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return aClass.equals(UsernamePasswordAuthenticationToken.class);
     }
-
-    protected void clearAuthenticationAttributes(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            return;
-        }
-        session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-    }
-//
-//    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-//        this.redirectStrategy = redirectStrategy;
-//    }
-//    protected RedirectStrategy getRedirectStrategy() {
-//        return redirectStrategy;
-//    }
 }

@@ -13,4 +13,5 @@ public interface ShoppingCartService {
     ShoppingCart getActiveShoppingCart(String userId);
     ShoppingCart cancelActiveShoppingCart(String userId);
     ShoppingCart checkoutShoppingCart(String userId, ChargeRequest chargeRequest);
+    ShoppingCart findActiveShoppingCartByUsername(String currentUserId);
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -41,6 +41,7 @@
             </div>
 
             <h1>Sign up</h1>
+            <!--/*@thymesVar id="user" type="com.example.seminarska_emt.model.User"*/-->
             <form th:action="@{/signup}" th:object="${user}" method="post">
 
                 <p class="error-message" th:if="${#fields.hasGlobalErrors()}"
@@ -71,12 +72,12 @@
                        th:each="error : ${#fields.errors('email')}">You  must enter your email</p>
                 </div>
                 <div class="form-group"
-                     th:classappend="${#fields.hasErrors('confirmEmail')}? 'has-error':''">
+                     th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
                     <label for="confirmEmail" class="control-label">Confirm
                         e-mail</label> <input id="confirmEmail" class="form-control"
-                                              th:field="*{confirmEmail}" />
+                                              th:field="*{email}" />
                     <p class="error-message"
-                       th:each="error : ${#fields.errors('confirmEmail')}"
+                       th:each="error : ${#fields.errors('email')}"
                     >You must confirm your email</p>
                 </div>
                 <div class="form-group"
@@ -88,22 +89,13 @@
                        th:each="error : ${#fields.errors('password')}">You must enter a password</p>
                 </div>
                 <div class="form-group"
-                     th:classappend="${#fields.hasErrors('confirmPassword')}? 'has-error':''">
+                     th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
                     <label for="confirmPassword" class="control-label">Confirm
                         password</label> <input id="confirmPassword" class="form-control"
-                                                type="password" th:field="*{confirmPassword}" />
+                                                type="password" th:field="*{password}" />
                     <p class="error-message"
-                       th:each="error : ${#fields.errors('confirmPassword')}"
+                       th:each="error : ${#fields.errors('password')}"
                     >You must confirm your password</p>
-                </div>
-                <div class="form-group"
-                     th:classappend="${#fields.hasErrors('terms')}? 'has-error':''" >
-                    <input id="terms" type="checkbox" th:field="*{terms}" />   <label
-                        class="control-label" for="terms"> I agree with the <a
-                        href="#">terms and conditions</a> for Registration.
-                </label>
-                    <p class="error-message"
-                       th:each="error : ${#fields.errors('terms')}" >You must agree with the terms</p>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">Register</button>
