@@ -24,7 +24,7 @@ public class SignUpController {
 
     @GetMapping
     public String showRegistrationForm(Model model) {
-        return "signup";
+        return "signup.html";
     }
 
     @PostMapping
@@ -37,7 +37,7 @@ public class SignUpController {
         }
 
         if (result.hasErrors()){
-            return "signup";
+            return "signup.html";
         }
 
         userService.save(userSignup);

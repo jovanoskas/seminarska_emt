@@ -10,7 +10,6 @@ import com.example.seminarska_emt.web.controllers.dto.UserSignup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -19,8 +18,6 @@ import java.util.Collections;
 public class UserServiceImpl implements UserService {
     @Autowired
     private final UserRepository userRepository;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
 
 
     public UserServiceImpl(UserRepository userRepository) {
@@ -38,7 +35,6 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(userSignup.getFirstName());
         user.setLastName(userSignup.getLastName());
         user.setEmail(userSignup.getEmail());
-        user.setPassword(passwordEncoder.encode(userSignup.getPassword()));
         user.setRoles(Collections.singletonList(new Role("ROLE_USER")));
         return userRepository.save(user);
     }

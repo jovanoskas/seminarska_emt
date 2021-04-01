@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -20,11 +20,11 @@
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="home.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="radio.html">Radio</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="add-song.html">Add new song</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="login.html">Log in</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="signup.html">Sign up</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/home" th:href="home.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/songs"th:href="songs.html">Songs playlists</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/songs/add-new" th:href="add-song.html">Add new song</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/login" th:href="login.html">Log in</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/signup" th:href="signup.html">Sign up</a></li>
                 </ul>
             </div>
         </div>

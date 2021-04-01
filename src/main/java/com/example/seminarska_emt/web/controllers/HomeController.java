@@ -18,7 +18,7 @@ public class HomeController {
 
     @GetMapping("/home")
     public String getHomePage(HttpServletResponse res, HttpServletRequest req) {
-        return "home";
+        return "home.html";
     }
 
 

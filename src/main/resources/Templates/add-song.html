@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <link href="/static/bootstrap-4.4.1-dist/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="/static/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
@@ -6,10 +7,13 @@
 </head>
 <body>
 <form action="/songs/add-new"  method="get">
+    <a class="navbar-brand" href="/songs/add-new" th:href="@{/add-song.html}">Add new song</a>
+    <br>
+    <br>
     <fieldset>
 
         <!-- Form Name -->
-        <legend>Songs</legend>
+        <legend>...</legend>
 
         <!-- Text input-->
         <div class="form-group">

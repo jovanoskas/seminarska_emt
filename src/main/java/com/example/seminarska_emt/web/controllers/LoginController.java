@@ -26,7 +26,7 @@ public class LoginController {
     public String getLoginPage(@RequestParam(required = false) String info,
                                Model model) {
         model.addAttribute("info", info);
-        return "login";
+        return "login.html";
     }
 
 
